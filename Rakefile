@@ -93,8 +93,12 @@ task :update_lock do
       end
     elsif instance == 'infranodes'
       copy['amis'][region].store('infranodes', {})
-      infranodes.each do |name, _rl|
-        copy['amis'][region]['infranodes'].store(name, parse_ami("infranodes-#{name}"))
+      unless wombat['infranodes'].nil?
+        infranodes.each do |name, _rl|
+          copy['amis'][region]['infranodes'].store(name, parse_ami("infranodes-#{name}"))
+        end
+      else
+        puts 'No infranodes to add'
       end
     else
       copy['amis'][region].store(instance, parse_ami(instance))
